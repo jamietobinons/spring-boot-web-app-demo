@@ -3,6 +3,6 @@
     <title>First Page Draft</title>
 </head>
 <body>
-    My First JSP!!!!!!
+    My First JSP!!!!!! Hello  ${name}
 </body>
 </html>
