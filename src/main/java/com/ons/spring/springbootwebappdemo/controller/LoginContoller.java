@@ -7,11 +7,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  * Created by tobinj on 31/05/2018.
  */
 @Controller
+@SessionAttributes("name")
 public class LoginContoller {
 
     // traditional way to initialise service.  Otherwise when try to use would

@@ -3,7 +3,10 @@
     <title>My ToDo's</title>
 </head>
 <body>
-Here is your current ToDo list ...
+Here is the list of ToDos for the user ${name} ...
+<br>
 ${toDos}
+<br>
+<a href="/add-todo">Add a ToDo</a>
 </body>
 </html>

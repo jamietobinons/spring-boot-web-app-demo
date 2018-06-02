@@ -6,11 +6,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import java.util.Date;
 
 /**
  * Created by tobinj on 31/05/2018.
  */
 @Controller
+@SessionAttributes("name")
 public class ToDoContoller {
 
     // traditional way to initialise service.  Otherwise when try to use would
@@ -26,11 +31,26 @@ public class ToDoContoller {
 
     @RequestMapping(value = "/list-todos", method= RequestMethod.GET)
     public String showToDos(ModelMap model){
-        model.put("toDos", toDoService.retrieveToDos("test"));
+
+        String name = (String) model.get("name");
+        model.put("toDos", toDoService.retrieveToDos(name));
 
         return "list-todos";
     }
 
+    @RequestMapping(value = "/add-todo", method= RequestMethod.GET)
+    public String navigateAddToDo(ModelMap model){
 
+        return "todo";
+    }
 
+    @RequestMapping(value = "/add-todo", method= RequestMethod.POST)
+    public String addToDo(ModelMap model, @RequestParam String desc){
+
+        // Add a new Todo
+        String name = (String) model.get("name");
+        toDoService.addToDo(name, desc, new Date(), false);
+
+        return "redirect:/list-todos";
+    }
 }
