@@ -44,6 +44,12 @@ public class ToDoContoller {
         return "todo";
     }
 
+    @RequestMapping(value = "/delete-todo", method= RequestMethod.GET)
+    public String deleteToDo(@RequestParam int id){
+        toDoService.deleteToDo(id);
+        return "redirect:/list-todos";
+    }
+
     @RequestMapping(value = "/add-todo", method= RequestMethod.POST)
     public String addToDo(ModelMap model, @RequestParam String desc){
 
