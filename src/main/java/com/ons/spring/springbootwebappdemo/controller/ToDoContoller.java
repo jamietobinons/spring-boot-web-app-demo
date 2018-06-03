@@ -1,6 +1,7 @@
 package com.ons.spring.springbootwebappdemo.controller;
 
 import com.ons.spring.springbootwebappdemo.service.ToDoService;
+import com.ons.spring.springbootwebappdemo.web.ToDo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -40,7 +41,8 @@ public class ToDoContoller {
 
     @RequestMapping(value = "/add-todo", method= RequestMethod.GET)
     public String navigateAddToDo(ModelMap model){
-
+        model.addAttribute("todo", new ToDo(0, (String) model.get("name"),
+                "", new Date(), false));
         return "todo";
     }
 
@@ -50,12 +52,13 @@ public class ToDoContoller {
         return "redirect:/list-todos";
     }
 
+    // Now using a form bean (for todo) instead of using RequesParams
     @RequestMapping(value = "/add-todo", method= RequestMethod.POST)
-    public String addToDo(ModelMap model, @RequestParam String desc){
+    public String addToDo(ModelMap model, ToDo todo){
 
         // Add a new Todo
         String name = (String) model.get("name");
-        toDoService.addToDo(name, desc, new Date(), false);
+        toDoService.addToDo(name, todo.getDesc(), new Date(), false);
 
         return "redirect:/list-todos";
     }

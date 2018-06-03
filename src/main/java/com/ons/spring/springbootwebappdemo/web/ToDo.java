@@ -13,6 +13,10 @@ public class ToDo {
     private Date targetDate;
     private boolean isDone;
 
+    public ToDo(){
+        super();
+    }
+
     public ToDo(int id, String user, String desc, Date targetDate,
                 boolean isDone) {
         super();
