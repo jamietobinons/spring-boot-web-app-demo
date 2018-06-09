@@ -10,8 +10,9 @@ import java.util.*;
 public class ToDoService {
     private static List<Todo> todos = new ArrayList<Todo>();
     private static int todoCount = 3;
-
+//    private static String loggedInUserName = GetLoggedInUser.getLoggedInUserName();
     static {
+        System.out.println("Static method......");
         todos.add(new Todo(1, "test", "Learn Spring MVC", new Date(),
                 false));
         todos.add(new Todo(2, "test", "Learn Struts", new Date(), false));
@@ -32,7 +33,9 @@ public class ToDoService {
 
     public List<Todo> retrieveToDos(String user) {
         List<Todo> filteredTodos = new ArrayList<Todo>();
+        System.out.println("User = [" + user + "]");
         for (Todo todo : todos) {
+            System.out.println("todo.getUser = [" + todo.getUser() + "]");
             if (todo.getUser().equals(user)) {
                 filteredTodos.add(todo);
             }

@@ -17,6 +17,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
             throws Exception {
         auth.inMemoryAuthentication().withUser("test").password("test")
                 .roles("USER", "ADMIN");
+        auth.inMemoryAuthentication().withUser("jamie").password("test")
+                .roles("USER", "ADMIN");
+
     }
 
     @Override

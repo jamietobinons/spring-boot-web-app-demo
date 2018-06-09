@@ -4,11 +4,16 @@ import com.ons.spring.springbootwebappdemo.service.ToDoService;
 import com.ons.spring.springbootwebappdemo.web.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
@@ -18,7 +23,6 @@ import java.util.Date;
  * Created by tobinj on 31/05/2018.
  */
 @Controller
-@SessionAttributes("name")
 public class ToDoContoller {
 
     // traditional way to initialise service.  Otherwise when try to use would
@@ -46,19 +50,29 @@ public class ToDoContoller {
     @RequestMapping(value = "/list-todos", method= RequestMethod.GET)
     public String showToDos(ModelMap model){
 
-        String name = getLoggedInUserName(model);
+        String name = getLoggedInUserName();
+        //System.out.println("list-todos... name = ["+ name +"]");
         model.put("todos", todoService.retrieveToDos(name));
 
         return "list-todos";
     }
 
-    private String getLoggedInUserName(ModelMap model) {
-        return (String) model.get("name");
+    private String getLoggedInUserName(){
+
+        Object principal = SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails){
+            return ((UserDetails) principal).getUsername();
+        }
+
+        return principal.toString();
     }
 
     @RequestMapping(value = "/add-todo", method= RequestMethod.GET)
     public String navigateAddToDo(ModelMap model){
-        model.addAttribute("todo", new Todo(0, (String) model.get("name"),
+        System.out.println("add-todo... name = ["+ getLoggedInUserName() +"]");
+        model.addAttribute("todo", new Todo(0, getLoggedInUserName(),
                 "", new Date(), false));
         return "todo";
     }
@@ -66,7 +80,7 @@ public class ToDoContoller {
     @RequestMapping(value = "/update-todo", method= RequestMethod.GET)
     public String showUpdateToDo(@RequestParam int id, ModelMap model){
         Todo todo = todoService.retrieveToDo(id);
-        System.out.println("showUpdateTodo :: id = [" + id + "]");
+        //System.out.println("showUpdateTodo :: id = [" + id + "]");
         model.put("todo", todo);
 
         return "todo";
@@ -81,7 +95,7 @@ public class ToDoContoller {
             return "todo";
         }
 
-        todo.setUser((String) model.get("name"));
+        todo.setUser((String) getLoggedInUserName());
 
         todoService.updateToDo(todo);
         todoService.sortTodos();
@@ -107,7 +121,7 @@ public class ToDoContoller {
         }
 
         // Add a new Todo
-        String name = getLoggedInUserName(model);
+        String name = getLoggedInUserName();
         todoService.addToDo(name, todo.getDesc(), todo.getTargetDate(), false);
 
         return "redirect:/list-todos";
