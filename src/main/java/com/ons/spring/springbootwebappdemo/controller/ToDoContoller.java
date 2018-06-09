@@ -46,10 +46,14 @@ public class ToDoContoller {
     @RequestMapping(value = "/list-todos", method= RequestMethod.GET)
     public String showToDos(ModelMap model){
 
-        String name = (String) model.get("name");
+        String name = getLoggedInUserName(model);
         model.put("todos", todoService.retrieveToDos(name));
 
         return "list-todos";
+    }
+
+    private String getLoggedInUserName(ModelMap model) {
+        return (String) model.get("name");
     }
 
     @RequestMapping(value = "/add-todo", method= RequestMethod.GET)
@@ -103,7 +107,7 @@ public class ToDoContoller {
         }
 
         // Add a new Todo
-        String name = (String) model.get("name");
+        String name = getLoggedInUserName(model);
         todoService.addToDo(name, todo.getDesc(), todo.getTargetDate(), false);
 
         return "redirect:/list-todos";
