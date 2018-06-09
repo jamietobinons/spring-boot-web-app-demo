@@ -1,17 +1,5 @@
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
-<html>
-<head>
-    <title>Add ToDo</title>
-    <link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"
-          rel="stylesheet">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
-
-</head>
-<body>
-
+<%@include file="../common/header.jspf"%>
+<%@include file="../common/navigation.jspf"%>
     <div class="container">
         Add a Todo for ${name}
         <form:form method="post" commandName="todo">
@@ -46,5 +34,4 @@
             });
         </script>
     </div>
-</body>
-</html>
+<%@include file="../common/footer.jspf"%>

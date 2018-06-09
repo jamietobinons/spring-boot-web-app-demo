@@ -1,8 +1,6 @@
-<html>
-<head>
-    <title>First Page Draft</title>
-</head>
-<body>
+<%@include file="../common/header.jspf"%>
+<%@include file="../common/navigation.jspf"%>
+<div class="container">
 welcome ${name} - <a href="list-todos">Click here</a> to manage your toDos ...
-</body>
-</html>
+</div>
+<%@include file="../common/footer.jspf"%>

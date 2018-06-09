@@ -1,13 +1,11 @@
-<html>
-<head>
-    <title>First Page Draft</title>
-</head>
-<body>
+<%@include file="../common/header.jspf"%>
+<%@include file="../common/navigation.jspf"%>
+<div class="container">
     <font color="red">${loginErrorMessage}</font>
     <form method="post">
-        Name : <input type="text" name="name" />
-        Password : <input type="password" name="password" />
+        Name : <input type="text" name="name" value="test" />
+        Password : <input type="password" name="password" value="test"/>
         <input type="submit" />
     </form>
-</body>
-</html>
+</div>
+<%@include file="../common/footer.jspf"%>
