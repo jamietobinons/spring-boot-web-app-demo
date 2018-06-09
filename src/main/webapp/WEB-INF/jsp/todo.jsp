@@ -9,19 +9,22 @@
 <body>
 
     <div class="container">
-        Add a todo for ${name}
+        Add a Todo for ${name}
         <form:form method="post" commandName="todo">
+            <form:hidden path="id"/>
             <fieldset class="form-group">
                 <form:label path="desc">Description</form:label>
                 <form:input path="desc" type="text"
                             class="form-control" required="required"/>
-                <button type="submit" class="btn-success">Add</button>
-                <button type="reset" class="btn-danger">Cancel</button>
+                <form:errors path="desc" cssClass="text-warning"/>
             </fieldset>
+            <div class="btn-toolbar btn-group-sm">
+                <button type="submit" class="btn btn-success">Add</button>
+                <a href="/list-todos" id="cancel" name="cancel"
+                   class="btn btn-primary">Cancel</a>
+            </div>
         </form:form>
 
-
-        <a href="/list-todos">Cancel</a>
         <script src="webjars/jquery/1.9.1/jquery.min.js"></script>
         <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     </div>

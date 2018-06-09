@@ -4,20 +4,23 @@ package com.ons.spring.springbootwebappdemo.web;
  * Created by tobinj on 01/06/2018.
  */
 
+import javax.validation.constraints.Size;
 import java.util.Date;
 
-public class ToDo {
+public class Todo {
+
     private int id;
     private String user;
+    @Size(min = 10, max = 35, message = "Must be between 10 and 35 characters")
     private String desc;
     private Date targetDate;
     private boolean isDone;
 
-    public ToDo(){
+    public Todo(){
         super();
     }
 
-    public ToDo(int id, String user, String desc, Date targetDate,
+    public Todo(int id, String user, String desc, Date targetDate,
                 boolean isDone) {
         super();
         this.id = id;
@@ -86,7 +89,7 @@ public class ToDo {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        ToDo other = (ToDo) obj;
+        Todo other = (Todo) obj;
         if (id != other.id) {
             return false;
         }
@@ -96,7 +99,7 @@ public class ToDo {
     @Override
     public String toString() {
         return String.format(
-                "ToDo [id=%s, user=%s, desc=%s, targetDate=%s, isDone=%s]", id,
+                "Todo [id=%s, user=%s, desc=%s, targetDate=%s, isDone=%s]", id,
                 user, desc, targetDate, isDone);
     }
 

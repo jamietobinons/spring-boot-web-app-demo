@@ -1,6 +1,6 @@
 package com.ons.spring.springbootwebappdemo.service;
 
-import com.ons.spring.springbootwebappdemo.web.ToDo;
+import com.ons.spring.springbootwebappdemo.web.Todo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -8,42 +8,62 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-// Business Service for toDos
+// Business Service for Todos
 @Service
 public class ToDoService {
-    private static List<ToDo> toDos = new ArrayList<ToDo>();
+    private static List<Todo> todos = new ArrayList<Todo>();
     private static int todoCount = 3;
 
     static {
-        toDos.add(new ToDo(1, "test", "Learn Spring MVC", new Date(),
+        todos.add(new Todo(1, "test", "Learn Spring MVC", new Date(),
                 false));
-        toDos.add(new ToDo(2, "test", "Learn Struts", new Date(), false));
-        toDos.add(new ToDo(3, "test", "Learn Hibernate", new Date(),
+        todos.add(new Todo(2, "test", "Learn Struts", new Date(), false));
+        todos.add(new Todo(3, "test", "Learn Hibernate", new Date(),
                 false));
     }
 
-    public List<ToDo> retrieveToDos(String user) {
-        List<ToDo> filteredToDos = new ArrayList<ToDo>();
-        for (ToDo todo : toDos) {
-            if (todo.getUser().equals(user)) {
-                filteredToDos.add(todo);
+    public Todo retrieveToDo(int id) {
+        for (Todo todo : todos) {
+            if (todo.getId()==(id)) {
+                return todo;
             }
         }
-        return filteredToDos;
+        return null; // return null if no matching Todo found
+    }
+
+    public List<Todo> retrieveToDos(String user) {
+        List<Todo> filteredTodos = new ArrayList<Todo>();
+        for (Todo todo : todos) {
+            if (todo.getUser().equals(user)) {
+                filteredTodos.add(todo);
+            }
+        }
+        return filteredTodos;
     }
 
     public void addToDo(String name, String desc, Date targetDate,
             boolean isDone) {
-        toDos.add(new ToDo(++todoCount, name, desc, targetDate, isDone));
+        todos.add(new Todo(++todoCount, name, desc, targetDate, isDone));
     }
 
     public void deleteToDo(int id) {
-        Iterator<ToDo> iterator = toDos.iterator();
+        System.out.println("[1...");
+        Iterator<Todo> iterator = todos.iterator();
+        System.out.println("[2...");
         while (iterator.hasNext()) {
-            ToDo todo = iterator.next();
+            System.out.println("[3...");
+            Todo todo = iterator.next();
+            System.out.println("[4...");
             if (todo.getId() == id) {
+                System.out.println("[5...");
                 iterator.remove();
+                System.out.println("[6...");
             }
         }
+    }
+
+    public void updateToDo(Todo todo) {
+        todos.remove(todo);
+        todos.add(todo);
     }
 }
