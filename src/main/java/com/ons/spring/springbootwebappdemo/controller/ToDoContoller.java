@@ -3,15 +3,15 @@ package com.ons.spring.springbootwebappdemo.controller;
 import com.ons.spring.springbootwebappdemo.service.ToDoService;
 import com.ons.spring.springbootwebappdemo.web.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -32,6 +32,17 @@ public class ToDoContoller {
     @Autowired
     ToDoService todoService;
 
+    /* From now on use this Date format wherever a Date Binding is formed.
+    *  This will be used for the Date class.
+    * */
+    @InitBinder
+    public void initBinder(WebDataBinder binder){
+        // Specify the date format for use.
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(
+                dateFormat, false));
+    }
+
     @RequestMapping(value = "/list-todos", method= RequestMethod.GET)
     public String showToDos(ModelMap model){
 
@@ -51,13 +62,15 @@ public class ToDoContoller {
     @RequestMapping(value = "/update-todo", method= RequestMethod.GET)
     public String showUpdateToDo(@RequestParam int id, ModelMap model){
         Todo todo = todoService.retrieveToDo(id);
+        System.out.println("showUpdateTodo :: id = [" + id + "]");
         model.put("todo", todo);
 
         return "todo";
     }
 
     @RequestMapping(value = "/update-todo", method= RequestMethod.POST)
-    public String updateToDo(ModelMap model, @Valid Todo todo, BindingResult result){
+    public String updateToDo(ModelMap model, @Valid Todo todo,
+    BindingResult result){
 
         if(result.hasErrors()){
             System.out.println("Binding result = " + result.toString());
@@ -67,6 +80,7 @@ public class ToDoContoller {
         todo.setUser((String) model.get("name"));
 
         todoService.updateToDo(todo);
+        todoService.sortTodos();
 
         return "redirect:/list-todos";
     }
@@ -90,7 +104,7 @@ public class ToDoContoller {
 
         // Add a new Todo
         String name = (String) model.get("name");
-        todoService.addToDo(name, todo.getDesc(), new Date(), false);
+        todoService.addToDo(name, todo.getDesc(), todo.getTargetDate(), false);
 
         return "redirect:/list-todos";
     }

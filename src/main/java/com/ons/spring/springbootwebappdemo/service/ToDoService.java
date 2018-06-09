@@ -3,10 +3,7 @@ package com.ons.spring.springbootwebappdemo.service;
 import com.ons.spring.springbootwebappdemo.web.Todo;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 // Business Service for Todos
 @Service
@@ -20,6 +17,8 @@ public class ToDoService {
         todos.add(new Todo(2, "test", "Learn Struts", new Date(), false));
         todos.add(new Todo(3, "test", "Learn Hibernate", new Date(),
                 false));
+        Collections.sort(todos, Todo.descComparator);
+
     }
 
     public Todo retrieveToDo(int id) {
@@ -65,5 +64,11 @@ public class ToDoService {
     public void updateToDo(Todo todo) {
         todos.remove(todo);
         todos.add(todo);
+
     }
+
+    public void sortTodos(){
+        Collections.sort(todos, Todo.descComparator);
+    }
+
 }

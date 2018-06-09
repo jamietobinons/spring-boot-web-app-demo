@@ -5,9 +5,10 @@ package com.ons.spring.springbootwebappdemo.web;
  */
 
 import javax.validation.constraints.Size;
+import java.util.Comparator;
 import java.util.Date;
 
-public class Todo {
+public class Todo{
 
     private int id;
     private String user;
@@ -102,5 +103,12 @@ public class Todo {
                 "Todo [id=%s, user=%s, desc=%s, targetDate=%s, isDone=%s]", id,
                 user, desc, targetDate, isDone);
     }
+
+    public static Comparator<Todo> descComparator = new Comparator<Todo>() {
+        @Override
+        public int compare(Todo todo1, Todo todo2) {
+            return (int) (todo1.getDesc().compareTo(todo2.getDesc()));
+        }
+    };
 
 }
