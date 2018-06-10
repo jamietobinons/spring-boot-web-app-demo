@@ -5,7 +5,7 @@ package com.ons.spring.springbootwebappdemo;
  */
 public class MathFunctions {
 
-    int sum(int[] numbers){
+    public int sum(int[] numbers){
         int sum = 0;
         for (int i : numbers){
             sum+= i;
@@ -13,4 +13,5 @@ public class MathFunctions {
         }
         return sum;
     }
+
 }
